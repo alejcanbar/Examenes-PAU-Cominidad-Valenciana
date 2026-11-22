@@ -1,0 +1,54 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#eef2ff 0%,#fdf2f8 100%);background-attachment:fixed;color:#1e1b3a;min-height:100vh}
+
+/* CABECERA */
+header{position:relative;overflow:hidden;background:linear-gradient(135deg,#4f46e5,#7c3aed 50%,#ec4899);color:#fff;padding:40px 16px 56px;text-align:center;border-radius:0 0 36px 36px;box-shadow:0 10px 30px #4f46e555}
+header::before,header::after{content:"";position:absolute;border-radius:50%;background:#ffffff1f}
+header::before{width:220px;height:220px;top:-80px;left:-60px}
+header::after{width:160px;height:160px;bottom:-70px;right:-30px}
+header h1{position:relative;margin:0 0 8px;font-size:clamp(1.5rem,5vw,2.4rem);letter-spacing:-.5px}
+header p{position:relative;margin:0;font-size:1.1rem;opacity:.95}
+
+main{max-width:960px;margin:-28px auto 0;padding:0 16px 16px;position:relative}
+
+/* BUSCADOR */
+input{width:100%;padding:16px 20px;border:0;border-radius:999px;font-size:1.05rem;background:#fff;box-shadow:0 8px 24px #4f46e522;outline:none}
+input:focus{box-shadow:0 0 0 3px #7c3aed88,0 8px 24px #4f46e522}
+
+/* MENÚ DE ASIGNATURAS */
+.rejilla{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin-top:22px}
+.asig{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:150px;padding:18px 12px;border:0;border-radius:22px;cursor:pointer;color:#fff;
+  background:linear-gradient(145deg,hsl(var(--h) 85% 58%),hsl(calc(var(--h) + 40) 80% 45%));
+  box-shadow:0 10px 22px hsl(var(--h) 80% 50% / .35);
+  transition:transform .2s,box-shadow .2s;animation:aparece .5s both}
+.asig:hover,.asig:focus-visible{transform:translateY(-6px) scale(1.04);box-shadow:0 16px 30px hsl(var(--h) 80% 50% / .5)}
+.asig:active{transform:scale(.97)}
+.icono{font-size:2.6rem;filter:drop-shadow(0 3px 4px #0003);transition:transform .25s}
+.asig:hover .icono{transform:rotate(-8deg) scale(1.15)}
+.nombre{font-size:.98rem;font-weight:700;line-height:1.2;text-shadow:0 1px 3px #0003}
+@keyframes aparece{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* PANTALLA DE LA ASIGNATURA */
+.volver{background:#fff;border:0;color:#4f46e5;font-size:1rem;font-weight:600;cursor:pointer;padding:10px 18px;border-radius:999px;box-shadow:0 4px 12px #4f46e522;margin-bottom:14px}
+.volver:hover{background:#4f46e5;color:#fff}
+#titulo{font-size:clamp(1.4rem,4vw,2rem);margin:6px 0;background:linear-gradient(90deg,#4f46e5,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 20px}
+.chip{padding:12px 22px;border:2px solid #c7d2fe;border-radius:999px;background:#fff;font-size:1.05rem;font-weight:700;color:#4f46e5;cursor:pointer;transition:all .2s}
+.chip:hover{transform:translateY(-3px);border-color:#7c3aed}
+.chip.activo{background:linear-gradient(135deg,#4f46e5,#ec4899);color:#fff;border-color:transparent;box-shadow:0 8px 18px #7c3aed55}
+
+.tarjeta{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border-radius:20px;padding:18px 20px;margin:12px 0;border-left:8px solid #7c3aed;box-shadow:0 8px 20px #4f46e51a;animation:aparece .4s both}
+.tarjeta strong{font-size:1.1rem}
+.fecha{color:#6b6b8a;font-size:.92rem;margin-top:3px}
+.tarjeta a{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 14px #4f46e544;transition:transform .2s}
+.tarjeta a:hover{transform:scale(1.07)}
+.pendiente{background:#f1f1f7;color:#9a9ab5;padding:8px 14px;border-radius:999px;font-size:.88rem;white-space:nowrap}
+
+/* PIE */
+footer{max-width:960px;margin:24px auto;padding:0 16px 32px;font-size:.9rem;color:#5b5b7a}
+footer a{color:#4f46e5;font-weight:600}
+[hidden]{display:none!important}
+
+.botones{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.tarjeta a.solucion{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 6px 14px #10b98144}

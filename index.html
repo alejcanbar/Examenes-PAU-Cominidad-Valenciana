@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exámenes PAU Comunitat Valenciana</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<header>
+  <h1>📚 Exámenes PAU · Comunitat Valenciana</h1>
+  <p id="subtitulo">Elige una asignatura</p>
+</header>
+<main>
+  <section id="menu">
+    <input id="fBuscar" type="search" placeholder="Buscar asignatura...">
+    <div id="asignaturas" class="rejilla"></div>
+  </section>
+
+  <section id="detalle" hidden>
+    <button id="volver" class="volver">← Cambiar de asignatura</button>
+    <h2 id="titulo"></h2>
+    <div id="anyos" class="chips"></div>
+    <div id="convocatorias"></div>
+  </section>
+</main>
+<footer>
+  <p>Web no oficial. Comprueba siempre fechas y documentos en las webs oficiales.</p>
+</footer>
+<script src="datos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+let asignatura = null, anyo = ANYOS[0];
+
+// Si falta alguna lista en datos.js, la web no se rompe
+const LISTA_ENLACES = typeof ENLACES !== "undefined" ? ENLACES : {};
+const LISTA_SOLUCIONES = typeof SOLUCIONES !== "undefined" ? SOLUCIONES : {};
+const LISTA_ICONOS = typeof ICONOS !== "undefined" ? ICONOS : {};
+
+function pintarMenu() {
+  const q = $("fBuscar").value.toLowerCase();
+  $("asignaturas").innerHTML = "";
+  ASIGNATURAS.forEach((s, i) => {
+    if (!s.toLowerCase().includes(q)) return;
+    const b = document.createElement("button");
+    b.className = "asig";
+    b.style.setProperty("--h", (i * 37) % 360);
+    b.style.animationDelay = (i * 0.04) + "s";
+    b.innerHTML = `<span class="icono">${LISTA_ICONOS[s] || "📘"}</span><span class="nombre">${s}</span>`;
+    b.onclick = () => { location.hash = encodeURIComponent(s); };
+    $("asignaturas").appendChild(b);
+  });
+}
+
+function pintarDetalle() {
+  $("titulo").textContent = asignatura;
+  $("anyos").innerHTML = "";
+  ANYOS.forEach(a => {
+    const b = document.createElement("button");
+    b.className = "chip" + (a === anyo ? " activo" : "");
+    b.textContent = a;
+    b.onclick = () => { anyo = a; pintarDetalle(); };
+    $("anyos").appendChild(b);
+  });
+  $("convocatorias").innerHTML = CONVOCATORIAS.map(c => {
+    const clave = anyo + "|" + c + "|" + asignatura;
+    const examen = LISTA_ENLACES[clave];
+    const solucion = LISTA_SOLUCIONES[clave];
+    let botones = "";
+    if (examen) botones += '<a href="' + examen + '" target="_blank" rel="noopener">📄 Examen</a>';
+    else botones += '<span class="pendiente">Examen pendiente</span>';
+    if (solucion) botones += '<a class="solucion" href="' + solucion + '" target="_blank" rel="noopener">✅ Solución</a>';
+    return '<div class="tarjeta"><strong>' + c + '</strong><div class="botones">' + botones + '</div></div>';
+  }).join("");
+}
+
+function mostrar() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  asignatura = ASIGNATURAS.includes(h) ? h : null;
+  $("menu").hidden = !!asignatura;
+  $("detalle").hidden = !asignatura;
+  $("subtitulo").textContent = asignatura ? "Elige el año" : "Elige una asignatura";
+  if (asignatura) pintarDetalle(); else pintarMenu();
+  window.scrollTo(0, 0);
+}
+
+$("fBuscar").addEventListener("input", pintarMenu);
+$("volver").onclick = () => { location.hash = ""; };
+window.addEventListener("hashchange", mostrar);
+mostrar();
+</script>
+</body>
+</html>
